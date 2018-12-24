@@ -1,13 +1,14 @@
 package com.hmtmcse.tm
 
 class Complexity {
-    Long id
 
+    Long id
     String name
     String description
     String reference
     String uuid
     Boolean isLock = false
+    Boolean isDeleted = false
     Date startedMoment
     Double estimatedHour
     String status = TMConstant.STATUS.PENDING

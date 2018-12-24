@@ -10,6 +10,7 @@ class Todo {
     String priority
     String externalId
     Boolean isLock = false
+    Boolean isDeleted = false
 
     User createdBy
     Date startedMoment

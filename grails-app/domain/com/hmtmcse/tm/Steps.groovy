@@ -12,6 +12,7 @@ class Steps {
     String status = TMConstant.STATUS.PENDING
     String jsonData
     String otherInfo
+    Boolean isDeleted = false
     Complexity complexity
     Todo todo
 
