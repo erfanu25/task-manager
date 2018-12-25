@@ -1,6 +1,8 @@
 package com.hmtmcse.tm
 
 class User {
+
+
     Integer id
     String firstName
     String lastName

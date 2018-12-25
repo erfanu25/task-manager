@@ -2,6 +2,7 @@ package com.hmtmcse.tm
 
 class Steps {
 
+    Long id
     String name
     String description
     String reference
