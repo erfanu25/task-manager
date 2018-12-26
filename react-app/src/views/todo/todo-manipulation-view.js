@@ -1,7 +1,6 @@
 import React from 'react'
 import RaViewComponent from "./../../artifacts/ra-view-component";
-import {
-    TableRow, TableCell, TableBody, Paper, Table, Typography,Button,TextField
+import { Paper, Typography,Button
 } from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import {ApiURL} from "../../app/api-url";
@@ -12,16 +11,11 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
 
 
-const tableHeader = [
-    {id: 'firstName', numeric: false, disablePadding: false, label: 'Name'},
-    {id: 'email', numeric: false, disablePadding: false, label: 'Email'},
-];
+
 
 class TodoManipulationView extends RaViewComponent {
 
@@ -116,6 +110,40 @@ class TodoManipulationView extends RaViewComponent {
                                             </Typography>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
+
+
+                                    <div className={classes.againMainActionArea}/>
+                                    <div className={classes.againMainActionArea}/>
+                                    <Paper className={classes.againMainActionArea}>
+                                        <div>
+                                            <Typography variant="headline" align="center">Parallel Testing</Typography>
+                                        </div>
+                                        <div>
+
+                                        </div>
+                                    </Paper>
+                                    <ExpansionPanel>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                            <Typography className={classes.heading}>Discount On Order</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <Typography>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                sit amet blandit leo lobortis eget.
+                                            </Typography>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                            <Typography className={classes.heading}>Expansion Panel 2</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <Typography>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                sit amet blandit leo lobortis eget.
+                                            </Typography>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Paper className={classes.againMainActionArea}>
@@ -153,6 +181,38 @@ class TodoManipulationView extends RaViewComponent {
                                     <Paper className={classes.againMainActionArea}>
                                         <div>
                                             <Typography variant="headline">Notes</Typography>
+                                        </div>
+                                        <div>
+                                            <Button variant="contained"><AddIcon/></Button>
+                                        </div>
+                                    </Paper>
+                                    <ExpansionPanel>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                            <Typography className={classes.heading}>Expansion Panel 1</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <Typography>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                sit amet blandit leo lobortis eget.
+                                            </Typography>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                            <Typography className={classes.heading}>Expansion Panel 2</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <Typography>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                sit amet blandit leo lobortis eget.
+                                            </Typography>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+
+                                    <div className={classes.againMainActionArea}/>
+                                    <Paper className={classes.againMainActionArea}>
+                                        <div>
+                                            <Typography variant="headline">Bug Reports</Typography>
                                         </div>
                                         <div>
                                             <Button variant="contained"><AddIcon/></Button>

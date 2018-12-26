@@ -19,11 +19,12 @@ class Todo {
     String status = TMConstant.STATUS.DRAFT
     String jsonData
     String externalInfo
+    Todo parentIssue
 
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [complexity: Complexity, assignee: User]
+    static hasMany = [complexity: Complexity, assignee: User, relatedIssues: Todo, bug: BugReport]
 
     static constraints = {
         jsonData(nullable: true)
@@ -34,6 +35,7 @@ class Todo {
         estimatedHour(nullable: true)
         externalInfo(nullable: true)
         dueDate(nullable: true)
+        parentIssue(nullable: true)
     }
 
     static mapping = {
