@@ -2,8 +2,10 @@ import LoginView from './../views/login-view';
 import DashboardView from './../views/dashboard-view';
 import NotFoundView from './../views/not-found-view';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 import React, { Component } from 'react'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import TodoMainView, {TodoOtherUrls} from "../views/todo/todo-main-view";
 import UserMainView, {UserOtherUrls} from "../views/user/user-main-view";
 import PublicLayout from "../views/layouts/public-layout";
 import PrivateLayout from "../views/layouts/private-layout";
@@ -33,6 +35,15 @@ const PrivateLayoutViews = [
         component: DashboardView,
         isLeftNav: true,
         isActive: true,
+    },
+    {
+        path: "/todo",
+        name: "Todo",
+        icon: EventNoteIcon,
+        component: TodoMainView,
+        isLeftNav: true,
+        isActive: true,
+        routes: TodoOtherUrls,
     },
     {
         path: "/user",

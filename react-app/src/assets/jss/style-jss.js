@@ -17,6 +17,48 @@ const mainLayoutJSS = theme => ({
     }
 });
 
+const viewCommon = theme => ({
+    root: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+    },
+    table: {
+        minWidth: 1020,
+    },
+    tableWrapper: {
+        overflowX: 'auto',
+    },
+    mainActionArea : {
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "8px",
+    },
+
+    againMainActionArea : {
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "8px",
+        marginBottom: "10px"
+    },
+
+    marginToLeft : {
+        marginLeft: theme.spacing.unit,
+    },
+    displayInline : {
+        display: "inline",
+    },
+
+    inLineFormContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+
+    inLineFormInput: {
+        margin: theme.spacing.unit,
+    },
+});
+
 export {
-    mainLayoutJSS
+    mainLayoutJSS,
+    viewCommon
 };

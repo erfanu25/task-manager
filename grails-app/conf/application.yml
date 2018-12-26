@@ -91,12 +91,14 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: ''
 
 environments:
     development:
+        server:
+            port: "1122"
         dataSource:
             dbCreate: update
             url: "jdbc:mysql://localhost/task_manager?useUnicode=yes&characterEncoding=UTF-8"

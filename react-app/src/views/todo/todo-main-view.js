@@ -6,36 +6,31 @@ import {
 import {withStyles} from '@material-ui/core/styles';
 import RaTableHeader from './../../artifacts/ra-table-header';
 import RaPagination from './../../artifacts/ra-pagination';
-import UserCreateUpdateView from './user-create-update-view';
 import RaTableAction, {ActionDefinition} from "../../artifacts/ra-table-action";
 import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import {ApiURL} from "../../app/api-url";
 import {AppConstant} from "../../app/app-constant";
 import {viewCommon} from "../../assets/jss/style-jss";
+import MenuItem from "@material-ui/core/MenuItem/MenuItem";
+import Grid from "@material-ui/core/Grid/Grid";
+import TodoManipulationView from "../todo/todo-manipulation-view";
 
 
-export const UserOtherUrls = [
+export const TodoOtherUrls = [
     {
-        path: "/user/create-update",
-        name: "Create Update",
-        component: UserCreateUpdateView,
+        path: "/todo/manipulation/:id",
+        name: "Todo Manipulation",
+        component: TodoManipulationView,
         isActive: true,
     },
-    {
-        path: "/user/create-update/:id",
-        name: "Create Update",
-        component: UserCreateUpdateView,
-        isActive: true,
-    }
 ];
-
 
 const tableHeader = [
     {id: 'firstName', numeric: false, disablePadding: false, label: 'Name'},
     {id: 'email', numeric: false, disablePadding: false, label: 'Email'},
 ];
 
-class UserMainView extends RaViewComponent {
+class TodoMainView extends RaViewComponent {
 
     constructor(props) {
         super(props);
@@ -46,6 +41,7 @@ class UserMainView extends RaViewComponent {
             total: 0,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
+            countrySelect: 'bangladesh',
         };
     }
 
@@ -95,13 +91,22 @@ class UserMainView extends RaViewComponent {
         actionDefinition.component.goToUrl("/user/create-update/" + additionalInformation.id)
     };
 
+    manipulation (event, actionDefinition){
+        let additionalInformation = actionDefinition.additionalInformation;
+        actionDefinition.component.goToUrl("/todo/manipulation/" + additionalInformation.id)
+    };
+
+    countrySelectChange = event => {
+        this.setState({countrySelect:event.target.value});
+    };
+
     appRender() {
         const {classes} = this.props;
 
         let tableActions = info =>{
             let actions = ActionDefinition.commonActions(info, this);
             actions.editAction.action = this.editAction;
-            delete (actions.viewAction);
+            actions.viewAction.action = this.manipulation;
             actions.deleteAction.action = this.deleteAction;
             return actions;
         };
@@ -109,14 +114,37 @@ class UserMainView extends RaViewComponent {
         return (<React.Fragment>
             <Paper className={classes.mainActionArea}>
                 <div>
-                    <Typography variant="headline">Users</Typography>
+                    <Typography variant="headline">Todo List</Typography>
+                    <Grid container spacing={8}>
+                        <Grid item xs={6}><TextField label="Search" fullWidth/></Grid>
+                        <Grid item xs={6}><TextField label="First name" fullWidth/></Grid>
+                    </Grid>
                 </div>
                 <div>
-                    <form className={classes.displayInline}>
-                        <TextField placeholder="search" name="search"/>
-                    </form>
-                    <Button className={classes.marginToLeft} onClick={event =>{this.goToUrl("/user/create-update", event)}} variant="contained" color="primary">Create</Button>
-                    <Button className={classes.marginToLeft} onClick={this.reload} variant="contained" color="primary">Reload</Button>
+                    <Typography variant="headline">Create Todo</Typography>
+                    <Grid container spacing={8}>
+                        <Grid item xs={12}><TextField placeholder="Name" fullWidth/></Grid>
+                        <Grid item xs={3}><TextField placeholder="Due Date" fullWidth/></Grid>
+                        <Grid item xs={3}>
+                            <TextField
+                                value={this.state.countrySelect} onChange={this.countrySelectChange}
+                                placeholder="Issue Id" select fullWidth>
+                                <MenuItem value="bangladesh">N/A</MenuItem>
+                                <MenuItem value="australia">Australia</MenuItem>
+                                <MenuItem value="usa">USA</MenuItem>
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <TextField
+                                value={this.state.countrySelect} onChange={this.countrySelectChange}
+                                placeholder="Issue Id" select fullWidth>
+                                <MenuItem value="bangladesh">High</MenuItem>
+                                <MenuItem value="australia">Australia</MenuItem>
+                                <MenuItem value="usa">USA</MenuItem>
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={3}><Button onClick={this.reload} variant="contained" color="primary" fullWidth>Add</Button></Grid>
+                    </Grid>
                 </div>
             </Paper>
             <Paper className={classes.root}>
@@ -145,4 +173,4 @@ class UserMainView extends RaViewComponent {
         </React.Fragment>);
     }
 }
-export default withStyles(viewCommon)(UserMainView);
+export default withStyles(viewCommon)(TodoMainView);

@@ -13,6 +13,7 @@ class Todo {
     Boolean isDeleted = false
 
     User createdBy
+    Date dueDate
     Date startedMoment
     Double estimatedHour
     String status = TMConstant.STATUS.DRAFT
@@ -32,6 +33,7 @@ class Todo {
         externalId(nullable: true)
         estimatedHour(nullable: true)
         externalInfo(nullable: true)
+        dueDate(nullable: true)
     }
 
     static mapping = {
