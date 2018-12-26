@@ -5,21 +5,27 @@ class Todo {
     Long id
 
     String name
-    String description
-    String uuid
-    String priority
-    String externalId
-    Boolean isLock = false
-    Boolean isDeleted = false
-
     User createdBy
     Date dueDate
+    String priority = TMConstant.PRIORITY.NA
+    String externalId = TMConstant.PRIORITY.NA
+    String todoType = TMConstant.COMPLEXITY_TASK_TYPE.OTHERS
+    Todo parentIssue
+
+
+
+    String description
     Date startedMoment
     Double estimatedHour
-    String status = TMConstant.STATUS.DRAFT
     String jsonData
+
+
+    String uuid
+
+    Boolean isLock = false
+    Boolean isDeleted = false
+    String status = TMConstant.STATUS.DRAFT
     String externalInfo
-    Todo parentIssue
 
     Date dateCreated
     Date lastUpdated
@@ -27,12 +33,15 @@ class Todo {
     static hasMany = [complexity: Complexity, assignee: User, relatedIssues: Todo, bug: BugReport]
 
     static constraints = {
-        jsonData(nullable: true)
         description(nullable: true)
         startedMoment(nullable: true)
+        estimatedHour(nullable: true)
+        jsonData(nullable: true)
+
+
         priority(nullable: true)
         externalId(nullable: true)
-        estimatedHour(nullable: true)
+
         externalInfo(nullable: true)
         dueDate(nullable: true)
         parentIssue(nullable: true)

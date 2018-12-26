@@ -13,6 +13,7 @@ class TMConstant {
     ]
 
     public static final PRIORITY = [
+            NA     : "N/A",
             HIGHEST: "Highest",
             HIGH   : "High",
             LOWEST : "Lowest",
@@ -28,8 +29,9 @@ class TMConstant {
     ]
 
     public static final COMPLEXITY_TASK_TYPE = [
-            DEVELOPMENT                : "Development",
-            QA       : "Quality Assurance"
+            DEVELOPMENT: "Development",
+            QA         : "Quality Assurance",
+            OTHERS     : "Others"
     ]
 
     public static final WORK_LOG_TYPE = [
@@ -46,7 +48,7 @@ class TMConstant {
             STAGING_TESTING    : "Staging Testing",
             AUTOMATION_TESTING : "Automation Testing",
             LOAD_TESTING       : "Load Testing",
-            HAPPY_TESTING       : "Happy Testing",
+            HAPPY_TESTING      : "Happy Testing",
     ]
 
 
