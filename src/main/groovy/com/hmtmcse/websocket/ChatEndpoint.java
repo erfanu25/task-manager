@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 
-@ServerEndpoint(value="/chat/{username}",decoders = MessageDecoder.class, encoders = MessageEncoder.class )
+@ServerEndpoint(value="/chat/{username}", decoders = MessageDecoder.class, encoders = MessageEncoder.class )
 public class ChatEndpoint {
 
     private Session session;

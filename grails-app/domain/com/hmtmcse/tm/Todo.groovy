@@ -30,7 +30,7 @@ class Todo {
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [complexity: Complexity, assignee: User, relatedIssues: Todo, bug: BugReport]
+    static hasMany = [complexity: Complexity, assignee: User, relatedIssues: Todo, bug: BugReport, changeLog: ChangeLog]
 
     static constraints = {
         description(nullable: true)
