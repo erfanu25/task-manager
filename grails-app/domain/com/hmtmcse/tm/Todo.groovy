@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class Todo {
+class Todo extends CommonTask{
 
     Long id
 
@@ -52,4 +52,6 @@ class Todo {
         jsonData(type: "text")
         externalInfo(type: "text")
     }
+
+
 }

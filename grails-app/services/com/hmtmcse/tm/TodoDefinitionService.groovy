@@ -13,6 +13,7 @@ class TodoDefinitionService {
         gsApiActionDefinition.addRequestProperty("priority")
         gsApiActionDefinition.addRequestProperty("externalId")
         gsApiActionDefinition.addRequestProperty("todoType")
+        gsApiActionDefinition.addRequestProperty("createdBy").setAlias("userId").required().enableTypeCast()
 
         gsApiActionDefinition.addRequestProperty("parentIssue", SwaggerConstant.SWAGGER_DT_LONG)
                 .setAlias("parentIssueId")
