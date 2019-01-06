@@ -1,6 +1,7 @@
 import React from 'react'
 import RaViewComponent from "./../../artifacts/ra-view-component";
 import {
+    DateAndTimePickers,
     TableRow, TableCell, TableBody, Paper, Table, Typography,Button,TextField
 } from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
@@ -15,6 +16,7 @@ import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import Grid from "@material-ui/core/Grid/Grid";
 import TodoManipulationView from "../todo/todo-manipulation-view";
 import {RaUtil} from "../../artifacts/ra-util";
+
 
 
 export const TodoOtherUrls = [
@@ -101,6 +103,10 @@ class TodoMainView extends RaViewComponent {
         this.setState({countrySelect:event.target.value});
     };
 
+    myOnChange = event =>{
+        console.log(event.target.value)
+    }
+
     appRender() {
         const {classes} = this.props;
 
@@ -125,7 +131,7 @@ class TodoMainView extends RaViewComponent {
                     <Typography variant="headline">Create Todo</Typography>
                     <Grid container spacing={8}>
                         <Grid item xs={12}><TextField placeholder="Name" fullWidth/></Grid>
-                        <Grid item xs={3}><TextField placeholder="Due Date" type="date" defaultValue={RaUtil.dateInputDateFormat()} fullWidth/></Grid>
+                        <Grid item xs={3}><TextField placeholder="Due Date" type="date" defaultValue={RaUtil.dateInputDateFormat()} onChange={this.myOnChange} fullWidth/></Grid>
                         <Grid item xs={3}>
                             <TextField
                                 value={this.state.countrySelect} onChange={this.countrySelectChange}
