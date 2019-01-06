@@ -31,7 +31,9 @@ class TMConstant {
     public static final COMPLEXITY_TASK_TYPE = [
             DEVELOPMENT: "Development",
             QA         : "Quality Assurance",
-            OTHERS     : "Others"
+            CODE_REVIEW: "Code Review",
+            RA         : "Requirement Analysis",
+            OTHERS     : "Others",
     ]
 
     public static final WORK_LOG_TYPE = [

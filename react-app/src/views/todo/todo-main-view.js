@@ -41,17 +41,37 @@ class TodoMainView extends RaViewComponent {
             orderBy: "id",
             order: "desc",
             users: [],
+            formData: {
+                priority: "NA",
+                todoType: "OTHERS",
+            },
+            formError: {},
             total: 0,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
             countrySelect: 'bangladesh',
+            priority: {},
+            todoType: {},
         };
     }
 
 
     componentDidMount() {
         this.showFlashMessage();
+        this.loadDropDownValues();
         this.loadList();
+    }
+
+    loadDropDownValues(){
+        this.getToApi(ApiURL.CommonDropDownConstant,  response => {
+            let data = response.data.response;
+            if (data.priority){
+                this.setState({priority: data.priority})
+            }
+            if (data.complexityTaskType){
+                this.setState({todoType: data.complexityTaskType})
+            }
+        });
     }
 
     loadList(condition = {}){
@@ -131,26 +151,26 @@ class TodoMainView extends RaViewComponent {
                     <Typography variant="headline">Create Todo</Typography>
                     <Grid container spacing={8}>
                         <Grid item xs={12}><TextField placeholder="Name" fullWidth/></Grid>
-                        <Grid item xs={3}><TextField placeholder="Due Date" type="date" defaultValue={RaUtil.dateInputDateFormat()} onChange={this.myOnChange} fullWidth/></Grid>
+                        <Grid item xs={4}><TextField placeholder="Due Date" type="date" defaultValue={RaUtil.dateInputDateFormat()} onChange={this.myOnChange} fullWidth/></Grid>
                         <Grid item xs={3}>
-                            <TextField
-                                value={this.state.countrySelect} onChange={this.countrySelectChange}
-                                placeholder="Issue Id" select fullWidth>
-                                <MenuItem value="bangladesh">N/A</MenuItem>
-                                <MenuItem value="australia">Australia</MenuItem>
-                                <MenuItem value="usa">USA</MenuItem>
+                            <TextField {...this.onChangeSelectProcessor("priority")} placeholder="Priority" select fullWidth>
+                                {
+                                    Object.entries(this.state.priority).map(([objectKey, objectValue], key) => {
+                                       return (<MenuItem key={key} value={objectKey}>{objectValue}</MenuItem>)
+                                    })
+                                }
                             </TextField>
                         </Grid>
                         <Grid item xs={3}>
-                            <TextField
-                                value={this.state.countrySelect} onChange={this.countrySelectChange}
-                                placeholder="Issue Id" select fullWidth>
-                                <MenuItem value="bangladesh">High</MenuItem>
-                                <MenuItem value="australia">Australia</MenuItem>
-                                <MenuItem value="usa">USA</MenuItem>
+                            <TextField {...this.onChangeSelectProcessor("todoType")} placeholder="Type" select fullWidth>
+                                {
+                                    Object.entries(this.state.todoType).map(([objectKey, objectValue], key) => {
+                                        return (<MenuItem key={key} value={objectKey}>{objectValue}</MenuItem>)
+                                    })
+                                }
                             </TextField>
                         </Grid>
-                        <Grid item xs={3}><Button onClick={this.reload} variant="contained" color="primary" fullWidth>Add</Button></Grid>
+                        <Grid item xs={2}><Button onClick={this.reload} variant="contained" color="primary" fullWidth>Add</Button></Grid>
                     </Grid>
                 </div>
             </Paper>

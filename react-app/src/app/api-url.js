@@ -13,6 +13,7 @@ export const ApiURL = {
     UserDelete: "api/v1/user/delete",
     UserDetails: "",
 
+    CommonDropDownConstant: "api/v1/common/dropDownConstant",
 
 
     XXXList: "",

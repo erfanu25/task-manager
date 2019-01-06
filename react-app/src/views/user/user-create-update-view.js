@@ -17,7 +17,6 @@ class UserCreateUpdateView extends RaViewComponent {
             edit: false,
             formData: {},
             formError: {},
-            formEditData: {},
         };
     }
 
