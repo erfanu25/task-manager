@@ -43,16 +43,11 @@ class TodoMainView extends RaViewComponent {
             orderBy: "id",
             order: "desc",
             todoList: [],
-            formData: {
-                priority: "NA",
-                todoType: "OTHERS",
-                dueDate: RaUtil.dateInputDateFormat(),
-            },
+            formData: {},
             formError: {},
             total: 0,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
-            countrySelect: 'bangladesh',
             priority: {},
             todoType: {},
         };
@@ -60,6 +55,19 @@ class TodoMainView extends RaViewComponent {
 
 
     componentDidMount() {
+        this.initiateForm();
+    }
+
+
+    initiateForm() {
+        this.setState((state) => {
+            let formData = {
+                priority: "NA",
+                todoType: "OTHERS",
+                dueDate: RaUtil.dateInputDateFormat(),
+            };
+            return {formData: formData};
+        });
         this.showFlashMessage();
         this.loadDropDownValues();
         this.loadList();
@@ -102,7 +110,8 @@ class TodoMainView extends RaViewComponent {
         }
         this.postJsonToApi(url, formData,
             success => {
-                this.processFormResponse(success.data, "/todo", successMessage);
+                let successMap = {successRedirectUrl: "/todo", successMessage: successMessage, callBack: (data) => {this.initiateForm()}};
+                this.processFormResponseAdvance(success.data, successMap);
             }
         )
     };
