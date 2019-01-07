@@ -17,6 +17,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import TodoManipulationView from "../todo/todo-manipulation-view";
 import {RaUtil} from "../../artifacts/ra-util";
 import TodoEditDialog from "./todo-edit-dialog";
+import RaAlertDialog from "../../artifacts/ra-alert-dialog";
 
 
 
@@ -41,6 +42,7 @@ class TodoMainView extends RaViewComponent {
     constructor(props) {
         super(props);
         this.state = {
+            editPopup: false,
             orderBy: "id",
             order: "desc",
             todoList: [],
@@ -140,7 +142,11 @@ class TodoMainView extends RaViewComponent {
 
     editAction (event, actionDefinition){
         let additionalInformation = actionDefinition.additionalInformation;
-        actionDefinition.component.goToUrl("/user/create-update/" + additionalInformation.id)
+        actionDefinition.component.setState({editPopup: true});
+    };
+
+    closeEditPopup(event) {
+        this.setState({editPopup: false});
     };
 
     manipulation (event, actionDefinition){
@@ -161,7 +167,7 @@ class TodoMainView extends RaViewComponent {
         };
 
         return (<React.Fragment>
-            <TodoEditDialog/>
+            {this.state.editPopup ? (<TodoEditDialog parent={this}/>): ""}
             <Paper className={classes.mainActionArea}>
                 <div>
                     <Typography variant="headline">Todo List</Typography>
