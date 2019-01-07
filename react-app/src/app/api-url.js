@@ -15,6 +15,12 @@ export const ApiURL = {
 
     CommonDropDownConstant: "api/v1/common/dropDownConstant",
 
+    TodoList: "api/v1/todo/list",
+    TodoQuickCreate: "api/v1/todo/quickCreate",
+    TodoUpdate: "api/v1/todo/update",
+    TodoDelete: "",
+    TodoDetails: "",
+
 
     XXXList: "",
     XXXXCreate: "",

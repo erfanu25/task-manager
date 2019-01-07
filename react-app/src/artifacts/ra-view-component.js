@@ -211,15 +211,24 @@ export default class RaViewComponent extends Component {
     }
 
     processFormResponse = (response, successRedirectUrl, successMessage, failedRedirectUrl, failedMessage) => {
+        let success = {successRedirectUrl: successRedirectUrl, successMessage: successMessage};
+        let failed = {failedRedirectUrl: failedRedirectUrl, failedMessage: failedMessage};
+        this.processFormResponseAdvance(response, success, failed)
+    };
+
+    processFormResponseAdvance = (response, success, failed) => {
         if (response.isSuccess) {
-            if (successRedirectUrl) {
-                RaStaticHolder.addMessageData(successMessage ? successMessage : response.message);
-                this.goToUrl(successRedirectUrl);
+            if (success.successRedirectUrl) {
+                RaStaticHolder.addMessageData(success.successMessage ? success.successMessage : response.message);
+                this.goToUrl(success.successRedirectUrl);
+                if (success.callBack){
+                    success.callBack(response)
+                }
             }
         } else {
-            if (failedRedirectUrl) {
-                RaStaticHolder.addMessageData(failedMessage ? failedMessage : response.message);
-                this.goToUrl(failedRedirectUrl)
+            if (failed.failedRedirectUrl) {
+                RaStaticHolder.addMessageData(failed.failedMessage ? failed.failedMessage : response.message);
+                this.goToUrl(failed.failedRedirectUrl)
             } else if (response.errorDetails) {
                 response.errorDetails.forEach((data, key) => {
                     if (data.fieldName) {
@@ -230,6 +239,9 @@ export default class RaViewComponent extends Component {
                 });
             } else if (response.message) {
                 this.showErrorInfo(response.message)
+            }
+            if (failed.callBack){
+                failed.callBack(response)
             }
         }
     };

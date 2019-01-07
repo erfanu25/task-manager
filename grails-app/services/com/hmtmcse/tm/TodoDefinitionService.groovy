@@ -10,16 +10,17 @@ class TodoDefinitionService {
 
     AuthenticationService authenticationService
 
-    GsApiActionDefinition create(){
+    GsApiActionDefinition create() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
-        gsApiActionDefinition.addRequestProperty("name").required()
-        gsApiActionDefinition.addRequestProperty("dueDate").required().setErrorMessage("Need to specify Due Date.").enableTypeCast()
+        gsApiActionDefinition.addRequestProperty("name").required()setErrorMessage("Please Enter Valid Name.")
+        gsApiActionDefinition.addRequestProperty("dueDate").required().setErrorMessage("Need to specify Due Date.").enableTypeCast().setDateFormat("yyyy-MM-dd")
         gsApiActionDefinition.addRequestProperty("priority")
         gsApiActionDefinition.addRequestProperty("externalId")
         gsApiActionDefinition.addRequestProperty("todoType")
         gsApiActionDefinition.addRequestProperty("parentIssue", SwaggerConstant.SWAGGER_DT_LONG)
                 .setAlias("parentIssueId")
                 .enableTypeCast()
+
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
             @Override
             GsFilteredData process(GsFilteredData gsFilteredData) {
@@ -27,10 +28,25 @@ class TodoDefinitionService {
                 return gsFilteredData
             }
         }
+
         gsApiActionDefinition.addResponseProperty("uuid")
         gsApiActionDefinition.addResponseProperty("id")
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
 
+
+    GsApiActionDefinition list() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
+        gsApiActionDefinition.includeAllThenExcludeFromResponse(["isDeleted", "dateCreated", "lastUpdated"])
+
+        gsApiActionDefinition.addRelationalEntityResponse("parentIssue")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
+        gsApiActionDefinition.addRelationalEntityResponse("createdBy")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+        return gsApiActionDefinition
+    }
 }

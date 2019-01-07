@@ -29,8 +29,10 @@ export const TodoOtherUrls = [
 ];
 
 const tableHeader = [
-    {id: 'firstName', numeric: false, disablePadding: false, label: 'Name'},
-    {id: 'email', numeric: false, disablePadding: false, label: 'Email'},
+    {id: 'name', numeric: false, disablePadding: false, label: 'Name'},
+    {id: 'priority', numeric: false, disablePadding: false, label: 'Priority'},
+    {id: 'todoType', numeric: false, disablePadding: false, label: 'Todo Type'},
+    {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
 ];
 
 class TodoMainView extends RaViewComponent {
@@ -40,10 +42,11 @@ class TodoMainView extends RaViewComponent {
         this.state = {
             orderBy: "id",
             order: "desc",
-            users: [],
+            todoList: [],
             formData: {
                 priority: "NA",
                 todoType: "OTHERS",
+                dueDate: RaUtil.dateInputDateFormat(),
             },
             formError: {},
             total: 0,
@@ -74,19 +77,35 @@ class TodoMainView extends RaViewComponent {
         });
     }
 
-    loadList(condition = {}){
+    loadList(condition = {}) {
         condition = this.loadOffsetMax(condition);
-        this.postJsonToApi(ApiURL.UserList, condition, response => {
-            this.setState({users:response.data.response});
+        this.postJsonToApi(ApiURL.TodoList, condition, response => {
+            this.setState({todoList: response.data.response});
             this.setState({total: response.data.total ? response.data.total : 0});
         });
     }
-
 
     reload = event => {
       this.loadList();
     };
 
+    formSubmitHandler = event => {
+        event.preventDefault();
+        let formData = this.state.formData;
+        let url = ApiURL.TodoQuickCreate;
+        let successMessage = "Successfully Created!!";
+        let id = this.getValueFromParams("id");
+        if (id){
+            url = ApiURL.TodoUpdate;
+            successMessage = "Successfully Updated!!";
+            formData = RaGsConditionMaker.equal(formData, "id", Number(id))
+        }
+        this.postJsonToApi(url, formData,
+            success => {
+                this.processFormResponse(success.data, "/todo", successMessage);
+            }
+        )
+    };
 
     clickOnSort = (name, row, event) => {
         let condition = this.sortProcessor(name);
@@ -119,13 +138,6 @@ class TodoMainView extends RaViewComponent {
         actionDefinition.component.goToUrl("/todo/manipulation/" + additionalInformation.id)
     };
 
-    countrySelectChange = event => {
-        this.setState({countrySelect:event.target.value});
-    };
-
-    myOnChange = event =>{
-        console.log(event.target.value)
-    }
 
     appRender() {
         const {classes} = this.props;
@@ -148,10 +160,11 @@ class TodoMainView extends RaViewComponent {
                     </Grid>
                 </div>
                 <div>
+                    <form onSubmit={this.formSubmitHandler} >
                     <Typography variant="headline">Create Todo</Typography>
                     <Grid container spacing={8}>
-                        <Grid item xs={12}><TextField placeholder="Name" fullWidth/></Grid>
-                        <Grid item xs={4}><TextField placeholder="Due Date" type="date" defaultValue={RaUtil.dateInputDateFormat()} onChange={this.myOnChange} fullWidth/></Grid>
+                        <Grid item xs={12}><TextField {...this.onChangeTextFieldProcessor("name")} placeholder="Name" fullWidth/></Grid>
+                        <Grid item xs={4}><TextField {...this.onChangeTextFieldProcessor("dueDate")} placeholder="Due Date" type="date" fullWidth/></Grid>
                         <Grid item xs={3}>
                             <TextField {...this.onChangeSelectProcessor("priority")} placeholder="Priority" select fullWidth>
                                 {
@@ -170,8 +183,9 @@ class TodoMainView extends RaViewComponent {
                                 }
                             </TextField>
                         </Grid>
-                        <Grid item xs={2}><Button onClick={this.reload} variant="contained" color="primary" fullWidth>Add</Button></Grid>
+                        <Grid item xs={2}><Button variant="contained" type="submit" color="primary" fullWidth>Add</Button></Grid>
                     </Grid>
+                    </form>
                 </div>
             </Paper>
             <Paper className={classes.root}>
@@ -183,12 +197,14 @@ class TodoMainView extends RaViewComponent {
                             order={this.state.order}
                             orderBy={this.state.orderBy}/>
                         <TableBody>
-                            {this.state.users.map(function (user, key) {
+                            {this.state.todoList.map(function (todo, key) {
                                 return (
                                     <TableRow key={key}>
-                                        <TableCell>{user.firstName} {user.lastName}</TableCell>
-                                        <TableCell>{user.email}</TableCell>
-                                        <TableCell numeric><RaTableAction tableActions={tableActions(user)}/></TableCell>
+                                        <TableCell>{todo.name}</TableCell>
+                                        <TableCell>{todo.priority}</TableCell>
+                                        <TableCell>{todo.todoType}</TableCell>
+                                        <TableCell>{todo.status}</TableCell>
+                                        <TableCell numeric><RaTableAction tableActions={tableActions(todo)}/></TableCell>
                                     </TableRow>
                                 )
                             })}
