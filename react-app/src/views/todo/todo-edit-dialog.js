@@ -34,8 +34,7 @@ export default class TodoEditDialog extends RaViewComponent {
         if (id) {
             this.showFlashMessage();
             this.getToApi(ApiURL.TodoDetails + "?propertyName=id&propertyValue=" + id, response => {
-                this.setState({formData: response.data.response})
-                console.log(response.data.response);
+                this.setState({formData: response.data.response});
             });
         }else {
             parent.showErrorInfo("Invalid Todo Entity.");
