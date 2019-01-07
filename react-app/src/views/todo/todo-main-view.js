@@ -16,6 +16,7 @@ import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import Grid from "@material-ui/core/Grid/Grid";
 import TodoManipulationView from "../todo/todo-manipulation-view";
 import {RaUtil} from "../../artifacts/ra-util";
+import TodoEditDialog from "./todo-edit-dialog";
 
 
 
@@ -160,6 +161,7 @@ class TodoMainView extends RaViewComponent {
         };
 
         return (<React.Fragment>
+            <TodoEditDialog/>
             <Paper className={classes.mainActionArea}>
                 <div>
                     <Typography variant="headline">Todo List</Typography>
