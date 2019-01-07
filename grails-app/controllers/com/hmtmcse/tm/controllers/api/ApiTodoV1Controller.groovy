@@ -21,8 +21,11 @@ class ApiTodoV1Controller extends GsRestProcessor {
     }
 
     def postDetails() {
-        return create(todoDefinitionService.create())
+        return details(todoDefinitionService.details())
     }
 
+    def getDetails() {
+        return details(todoDefinitionService.details())
+    }
 
 }

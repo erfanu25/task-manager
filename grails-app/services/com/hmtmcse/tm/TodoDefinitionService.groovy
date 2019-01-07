@@ -1,7 +1,9 @@
 package com.hmtmcse.tm
 
 import com.hmtmcse.gs.GsApiActionDefinition
+import com.hmtmcse.gs.data.GsApiResponseProperty
 import com.hmtmcse.gs.data.GsFilteredData
+import com.hmtmcse.gs.model.CustomResponseParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
 import com.hmtmcse.swagger.definition.SwaggerConstant
 
@@ -47,6 +49,30 @@ class TodoDefinitionService {
         gsApiActionDefinition.addRelationalEntityResponse("createdBy")
         gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
         gsApiActionDefinition.reResponseData().addResponseProperty("name")
+        return gsApiActionDefinition
+    }
+
+    GsApiActionDefinition details() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
+        gsApiActionDefinition.includeAllThenExcludeFromResponse(["isDeleted", "dateCreated", "lastUpdated"])
+
+        gsApiActionDefinition.addResponseProperty("dueDate").customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                Date date = domainRow[fieldName]
+                return date.format("yyyy-MM-dd")
+            }
+        }
+
+        gsApiActionDefinition.addRelationalEntityResponse("parentIssue")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
+        gsApiActionDefinition.addRelationalEntityResponse("createdBy")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
+        gsApiActionDefinition.addToWhereFilterProperty('id').enableTypeCast()
         return gsApiActionDefinition
     }
 }

@@ -19,7 +19,7 @@ export const ApiURL = {
     TodoQuickCreate: "api/v1/todo/quickCreate",
     TodoUpdate: "api/v1/todo/update",
     TodoDelete: "",
-    TodoDetails: "",
+    TodoDetails: "api/v1/todo/details",
 
 
     XXXList: "",

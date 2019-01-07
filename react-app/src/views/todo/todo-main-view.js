@@ -47,6 +47,7 @@ class TodoMainView extends RaViewComponent {
             order: "desc",
             todoList: [],
             formData: {},
+            todoDetails: {},
             formError: {},
             total: 0,
             max: AppConstant.rowsPerPage,
@@ -142,6 +143,7 @@ class TodoMainView extends RaViewComponent {
 
     editAction (event, actionDefinition){
         let additionalInformation = actionDefinition.additionalInformation;
+        actionDefinition.component.setState({todoDetails: additionalInformation});
         actionDefinition.component.setState({editPopup: true});
     };
 
@@ -167,7 +169,7 @@ class TodoMainView extends RaViewComponent {
         };
 
         return (<React.Fragment>
-            {this.state.editPopup ? (<TodoEditDialog parent={this}/>): ""}
+            {this.state.editPopup ? (<TodoEditDialog parent={this} todoObject={this.state.todoDetails}/>): ""}
             <Paper className={classes.mainActionArea}>
                 <div>
                     <Typography variant="headline">Todo List</Typography>

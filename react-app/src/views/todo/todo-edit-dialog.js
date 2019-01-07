@@ -6,12 +6,11 @@ import PropTypes from "prop-types";
 import RaViewComponent from "../../artifacts/ra-view-component";
 import RaAlertDialog from "../../artifacts/ra-alert-dialog";
 import {
-    Button, TextField, FormControl, InputLabel, Radio,
-    Select,MenuItem, FormControlLabel, Checkbox, FormGroup, FormLabel,RadioGroup,
-    Card, CardContent, CardActions, CardHeader, Grid
+    Button, TextField, Grid
 } from '@material-ui/core'
-import FormHelperText from "@material-ui/core/es/FormHelperText/FormHelperText";
 import React from 'react';
+import {ApiURL} from "../../app/api-url";
+import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 
 export default class TodoEditDialog extends RaViewComponent {
 
@@ -20,48 +19,84 @@ export default class TodoEditDialog extends RaViewComponent {
         super(props);
         this.state = {
             open: true,
+            formData: {},
+            formError: {},
+            priority: {},
+            todoType: {}
         };
     }
+
+    componentDidMount() {
+        this.showFlashMessage();
+        this.loadDropDownValues();
+        const { parent, todoObject } = this.props;
+        let id = todoObject.id;
+        if (id) {
+            this.showFlashMessage();
+            this.getToApi(ApiURL.TodoDetails + "?propertyName=id&propertyValue=" + id, response => {
+                this.setState({formData: response.data.response})
+                console.log(response.data.response);
+            });
+        }else {
+            parent.showErrorInfo("Invalid Todo Entity.");
+            parent.setState({editPopup: false});
+        }
+    }
+
 
     closePopup = () => {
         const { parent } = this.props;
         parent.setState({editPopup: false});
     };
 
+    loadDropDownValues(){
+        this.getToApi(ApiURL.CommonDropDownConstant,  response => {
+            let data = response.data.response;
+            if (data.priority){
+                this.setState({priority: data.priority})
+            }
+            if (data.complexityTaskType){
+                this.setState({todoType: data.complexityTaskType})
+            }
+        });
+    }
 
     appRender() {
-        const { isOpen, title, message, okayLabel, cancelLabel, cancelFunction } = this.props;
         return (
             <Dialog maxWidth="md"
                 open={this.state.open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">Edit Todo List</DialogTitle>
+                <DialogTitle id="alert-dialog-title">Edit Todo</DialogTitle>
                 <DialogContent>
                     <form>
                         <Grid container spacing={8}>
-                            <Grid item xs={6}><TextField label="First name" fullWidth/></Grid>
-                            <Grid item xs={6}><TextField label="Last name" fullWidth/></Grid>
-                            <Grid item xs={6}><TextField label="Mobile" fullWidth/></Grid>
-                            <Grid item xs={6}><TextField label="website" fullWidth/></Grid>
-                            <Grid item xs={6}><TextField label="Email" type="email" fullWidth/></Grid>
-                            <Grid item xs={6}><TextField label="Birthday" fullWidth/></Grid>
-                            <Grid item xs={6}><TextField label="Password" type="password" fullWidth/></Grid>
-                            <Grid item xs={6}>
-                                <FormControl>
-                                    <FormControlLabel control={<Checkbox value="checkedC" />} label="Single Checkbox" />
-                                </FormControl>
+                            {/*<Grid item xs={6}><TextField label="First name" {...this.onChangeTextFieldProcessor("firstName")} fullWidth/></Grid>*/}
+                            {/*<Grid item xs={6}><TextField label="First name" {...this.onChangeTextFieldProcessor("firstName")} fullWidth/></Grid>*/}
+                            {/*<Grid item xs={6}><TextField label="First name" {...this.onChangeTextFieldProcessor("firstName")} fullWidth/></Grid>*/}
+                            {/*<Grid item xs={6}><TextField label="First name" {...this.onChangeTextFieldProcessor("firstName")} fullWidth/></Grid>*/}
+                            {/*<Grid item xs={6}><TextField label="First name" {...this.onChangeTextFieldProcessor("firstName")} fullWidth/></Grid>*/}
+                            {/*<Grid item xs={6}><TextField label="First name" {...this.onChangeTextFieldProcessor("firstName")} fullWidth/></Grid>*/}
+                            <Grid item xs={3}>
+                                <TextField {...this.onChangeSelectProcessor("priority")} placeholder="Priority" select fullWidth>
+                                    {
+                                        Object.entries(this.state.priority).map(([objectKey, objectValue], key) => {
+                                            return (<MenuItem key={key} value={objectKey}>{objectValue}</MenuItem>)
+                                        })
+                                    }
+                                </TextField>
                             </Grid>
-                            <Grid item xs={12}>
-                                <FormControl>
-                                    <FormControlLabel control={<Checkbox value="checkbox1" />} label="Checkbox 1"/>
-                                    <FormControlLabel control={<Checkbox value="checkbox2" />} label="Checkbox 2" />
-                                    <FormControlLabel control={<Checkbox value="checkbox3" />} label="Checkbox 3"/>
-                                </FormControl>
+                            <Grid item xs={3}>
+                                <TextField {...this.onChangeSelectProcessor("todoType")} placeholder="Type" select fullWidth>
+                                    {
+                                        Object.entries(this.state.todoType).map(([objectKey, objectValue], key) => {
+                                            return (<MenuItem key={key} value={objectKey}>{objectValue}</MenuItem>)
+                                        })
+                                    }
+                                </TextField>
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField label="Bio" fullWidth multiline rows={3}/>
-                            </Grid>
+                            <Grid item xs={12}><TextField label="Name" {...this.onChangeTextFieldProcessor("name")} fullWidth/></Grid>
+                            <Grid item xs={6}><TextField {...this.onChangeTextFieldProcessor("dueDate")} placeholder="Due Date" type="date" fullWidth/></Grid>
                         </Grid>
                     </form>
                 </DialogContent>
@@ -76,7 +111,8 @@ export default class TodoEditDialog extends RaViewComponent {
 
 
 RaAlertDialog.propTypes = {
-    parent: PropTypes.object.isRequired
+    parent: PropTypes.object.isRequired,
+    todoObject: PropTypes.object.isRequired
 };
 
 TodoEditDialog.defaultProps = {

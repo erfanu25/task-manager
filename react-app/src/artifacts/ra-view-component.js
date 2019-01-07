@@ -75,7 +75,10 @@ export default class RaViewComponent extends Component {
     };
 
     getValueFromParams(key) {
-        return this.props.route.match.params[key];
+        if (this.props.route && this.props.route.match){
+            return this.props.route.match.params[key];
+        }
+        return undefined;
     }
 
 
