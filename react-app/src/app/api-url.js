@@ -20,6 +20,14 @@ export const ApiURL = {
     TodoUpdate: "api/v1/todo/update",
     TodoDelete: "",
     TodoDetails: "api/v1/todo/details",
+    TodoAllDetails: "api/v1/todo/allDetails",
+
+
+    ComplexityList: "",
+    ComplexityCreate: "api/v1/complexity/create",
+    ComplexityUpdate: "api/v1/complexity/update",
+    ComplexityDelete: "",
+    ComplexityDetails: "",
 
 
     XXXList: "",

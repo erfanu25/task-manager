@@ -17,6 +17,8 @@ import TodoChangeLogDialog from "./manipulation/todo-change-log-dialog";
 import TodoParallelTestingDialog from "./manipulation/todo-parallel-testing-dialog";
 import TodoNoteDialog from "./manipulation/todo-note-dialog";
 import TodoBugReportDialog from "./manipulation/todo-bug-report-dialog";
+import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
+import RaStaticHolder from "../../artifacts/ra-static-holder";
 
 
 
@@ -29,7 +31,7 @@ class TodoManipulationView extends RaViewComponent {
         this.state = {
             orderBy: "id",
             order: "desc",
-            users: [],
+            allDetails: [],
             total: 0,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
@@ -44,21 +46,23 @@ class TodoManipulationView extends RaViewComponent {
 
     componentDidMount() {
         this.showFlashMessage();
-        this.loadList();
-    }
-
-    loadList(condition = {}){
-        condition = this.loadOffsetMax(condition);
-        this.postJsonToApi(ApiURL.TodoList, condition, response => {
-            this.setState({users:response.data.response});
-            this.setState({total: response.data.total ? response.data.total : 0});
-        });
+        this.loadAllDetails();
     }
 
 
-    reload = event => {
-      this.loadList();
-    };
+    loadAllDetails() {
+        let id = this.getValueFromParams("id");
+        if (id) {
+            let condition = RaGsConditionMaker.equal({}, "id", id);
+            this.postJsonToApi(ApiURL.TodoAllDetails, condition, response => {
+                this.setState({allDetails: response.data.response});
+                console.log(response.data.response);
+            });
+        }else{
+            RaStaticHolder.addMessageData("Invalid Todo Details", false);
+            this.goToUrl("/todo");
+        }
+    }
 
 
     openTodoComplexity(event){

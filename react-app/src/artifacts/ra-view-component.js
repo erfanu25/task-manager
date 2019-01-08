@@ -204,7 +204,7 @@ export default class RaViewComponent extends Component {
 
     showFlashMessage() {
         if (RaStaticHolder.message.message) {
-            if (RaStaticHolder.message) {
+            if (RaStaticHolder.message.isSuccess) {
                 this.showSuccessInfo(RaStaticHolder.message.message)
             } else {
                 this.showErrorInfo(RaStaticHolder.message.message)

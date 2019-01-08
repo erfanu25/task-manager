@@ -12,6 +12,7 @@ import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {ApiURL} from "../../../app/api-url";
 import {RaGsConditionMaker} from "../../../artifacts/ra-gs-condition-maker";
 
+
 export default class TodoComplexityDialog extends RaViewComponent {
 
 
@@ -34,8 +35,6 @@ export default class TodoComplexityDialog extends RaViewComponent {
                 status: "DRAFT",
                 type: "OTHERS",
                 taskType: "OTHERS",
-                startedMoment: "",
-                estimatedHour: "",
             };
             return {formData: formData};
         });
@@ -55,7 +54,6 @@ export default class TodoComplexityDialog extends RaViewComponent {
             if (data.status){
                 this.setState({status: data.status})
             }
-            console.log(data);
             if (data.complexityTaskType){
                 this.setState({taskType: data.complexityTaskType})
             }
@@ -65,17 +63,35 @@ export default class TodoComplexityDialog extends RaViewComponent {
         });
     }
 
+
+    loadAllDetails() {
+        const { allDetails } = this.props;
+        let id = allDetails.id;
+        if (id) {
+            let condition = RaGsConditionMaker.equal({}, "id", id);
+            this.postJsonToApi(ApiURL.TodoAllDetails, condition, response => {
+                this.setState({allDetails: response.data.response});
+            });
+        }
+    }
+
     formSubmitHandler = event => {
         event.preventDefault();
+        const { parent } = this.props;
         let formData = this.state.formData;
-        let url = ApiURL.TodoQuickCreate;
+        let allDetails = parent.state.allDetails;
+        formData.todoId = allDetails.id;
+        let url = ApiURL.ComplexityCreate;
         let successMessage = "Successfully Created!!";
         let id = this.getValueFromParams("id");
         if (id){
-            url = ApiURL.TodoUpdate;
+            url = ApiURL.ComplexityUpdate;
             successMessage = "Successfully Updated!!";
             formData = RaGsConditionMaker.equal(formData, "id", Number(id))
         }
+        console.log(formData);
+        console.log(url);
+
         this.postJsonToApi(url, formData,
             success => {
                 let successMap = {successRedirectUrl: "/todo", successMessage: successMessage, callBack: (data) => {this.initiateForm()}};
@@ -126,19 +142,21 @@ export default class TodoComplexityDialog extends RaViewComponent {
                                 </TextField>
                             </Grid>
 
-                            <Grid item xs={2}><TextField label="Started" disabled value={this.state.formData.startedMoment}  fullWidth/></Grid>
+                            <Grid item xs={2}><TextField name="" label="Started" disabled value={this.state.formData.startedMoment}  fullWidth/></Grid>
                             <Grid item xs={2}><TextField label="Estimation" disabled value={this.state.formData.estimatedHour}   fullWidth/></Grid>
 
-                            <Grid item xs={12}><TextField label="Name" {...this.onChangeTextFieldProcessor("name")} fullWidth/></Grid>
+                            <Grid item xs={12}><TextField name="" label="Name" {...this.onChangeTextFieldProcessor("name")} fullWidth/></Grid>
                             <Grid item xs={12}><TextField multiline rows={3} label="Description" {...this.onChangeTextFieldProcessor("description")} fullWidth/></Grid>
                             <Grid item xs={12}><TextField multiline rows={3} label="Reference" {...this.onChangeTextFieldProcessor("reference")} fullWidth/></Grid>
                         </Grid>
+
+                        <DialogActions>
+                            <Button type="submit" color="primary" variant="raised">Save</Button>
+                            <Button onClick={this.closePopup} color="primary" autoFocus variant="raised">Cancel</Button>
+                        </DialogActions>
                     </form>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.closePopup} color="primary" variant="raised">Save</Button>
-                    <Button onClick={this.closePopup} color="primary" autoFocus variant="raised">Cancel</Button>
-                </DialogActions>
+
             </Dialog>
         );
     }
