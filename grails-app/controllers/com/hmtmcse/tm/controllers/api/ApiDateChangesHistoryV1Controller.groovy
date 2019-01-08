@@ -7,7 +7,7 @@ class ApiDateChangesHistoryV1Controller extends GsRestProcessor {
 
     DataChangeHistoryDefinitionService dataChangeHistoryDefinitionService
 
-    def postQuickCreate() {
+    def postCreate() {
         return create(dataChangeHistoryDefinitionService.create())
     }
 

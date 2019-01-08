@@ -8,7 +8,7 @@ class ApiBugWorkLogV1Controller extends GsRestProcessor {
 
     BugWorkLogDefinitionService bugWorkLogDefinitionService
 
-    def postQuickCreate() {
+    def postCreate() {
         return create(bugWorkLogDefinitionService.create())
     }
 

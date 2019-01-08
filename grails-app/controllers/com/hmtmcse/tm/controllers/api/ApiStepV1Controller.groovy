@@ -7,7 +7,7 @@ class ApiStepV1Controller extends GsRestProcessor {
 
     StepsDefinitionService stepsDefinitionService
 
-    def postQuickCreate() {
+    def postCreate() {
         return create(stepsDefinitionService.create())
     }
 

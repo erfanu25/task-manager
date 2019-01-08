@@ -7,7 +7,7 @@ class ApiComplexityV1Controller extends GsRestProcessor {
 
     ComplexityDefinitionService complexityDefinitionService
 
-    def postQuickCreate() {
+    def postCreate() {
         return create(complexityDefinitionService.create())
     }
 

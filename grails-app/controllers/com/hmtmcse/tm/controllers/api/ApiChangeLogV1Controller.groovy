@@ -7,7 +7,7 @@ class ApiChangeLogV1Controller extends GsRestProcessor {
 
     ChangeLogDefinitionService changeLogDefinitionService
 
-    def postQuickCreate() {
+    def postCreate() {
         return create(changeLogDefinitionService.create())
     }
 

@@ -7,7 +7,7 @@ class ApiHistoryHolderV1Controller extends GsRestProcessor {
 
     TodoDefinitionService todoDefinitionService
 
-    def postQuickCreate() {
+    def postCreate() {
         return create(todoDefinitionService.create())
     }
 

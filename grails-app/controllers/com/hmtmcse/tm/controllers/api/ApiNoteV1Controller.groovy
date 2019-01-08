@@ -7,7 +7,7 @@ class ApiNoteV1Controller extends GsRestProcessor {
 
     NotesDefinitionService notesDefinitionService
 
-    def postQuickCreate() {
+    def postCreate() {
         return create(notesDefinitionService.create())
     }
 
