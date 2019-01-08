@@ -54,7 +54,7 @@ class TodoDefinitionService {
 
     GsApiActionDefinition details() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
-        gsApiActionDefinition.includeAllThenExcludeFromResponse(["isDeleted", "dateCreated", "lastUpdated"])
+        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(["isDeleted", "dateCreated", "lastUpdated"])
 
         gsApiActionDefinition.addResponseProperty("dueDate").customResponseParamProcessor = new CustomResponseParamProcessor() {
             @Override
@@ -73,6 +73,32 @@ class TodoDefinitionService {
         gsApiActionDefinition.reResponseData().addResponseProperty("name")
 
         gsApiActionDefinition.addToWhereFilterProperty('id').enableTypeCast()
+        return gsApiActionDefinition
+    }
+
+    GsApiActionDefinition allDetails() {
+        GsApiActionDefinition gsApiActionDefinition = details()
+
+        def excludeFields = ["isDeleted", "dateCreated", "lastUpdated"]
+        gsApiActionDefinition.addRelationalEntityResponse("complexity")
+        gsApiActionDefinition.reResponseData().includeAllNotRelationalThenExcludeFromResponse(excludeFields)
+
+        gsApiActionDefinition.addRelationalEntityResponse("assignee")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
+        gsApiActionDefinition.addRelationalEntityResponse("bug")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
+        gsApiActionDefinition.addRelationalEntityResponse("changeLog")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
+        gsApiActionDefinition.addRelationalEntityResponse("note")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
         return gsApiActionDefinition
     }
 }

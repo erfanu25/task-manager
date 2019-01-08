@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class Notes {
+class Notes extends CommonTask {
 
     Long id
     String name

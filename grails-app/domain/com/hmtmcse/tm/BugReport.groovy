@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class BugReport {
+class BugReport extends CommonTask {
 
     Long id
     String name

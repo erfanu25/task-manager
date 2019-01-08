@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class WorkLog {
+class WorkLog extends CommonTask {
 
     Long id
     User taskOwner

@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class Complexity {
+class Complexity extends CommonTask {
 
     Long id
     String name

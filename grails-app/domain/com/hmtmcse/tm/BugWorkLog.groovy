@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class BugWorkLog {
+class BugWorkLog extends CommonTask {
 
     Long id
     BugReport bugReport

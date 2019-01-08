@@ -49,7 +49,7 @@ class TodoManipulationView extends RaViewComponent {
 
     loadList(condition = {}){
         condition = this.loadOffsetMax(condition);
-        this.postJsonToApi(ApiURL.UserList, condition, response => {
+        this.postJsonToApi(ApiURL.TodoList, condition, response => {
             this.setState({users:response.data.response});
             this.setState({total: response.data.total ? response.data.total : 0});
         });

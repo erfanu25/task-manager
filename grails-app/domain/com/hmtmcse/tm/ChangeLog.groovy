@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class ChangeLog {
+class ChangeLog extends CommonTask {
 
     Long id
     String name

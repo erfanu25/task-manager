@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class Todo extends CommonTask{
+class Todo extends CommonTask {
 
     Long id
 
@@ -11,7 +11,6 @@ class Todo extends CommonTask{
     String externalId = TMConstant.PRIORITY.NA
     String todoType = TMConstant.COMPLEXITY_TASK_TYPE.OTHERS
     Todo parentIssue
-
 
 
     String description
@@ -30,7 +29,7 @@ class Todo extends CommonTask{
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [complexity: Complexity, assignee: User, relatedIssues: Todo, bug: BugReport, changeLog: ChangeLog]
+    static hasMany = [complexity: Complexity, assignee: User, relatedIssues: Todo, bug: BugReport, changeLog: ChangeLog, note: Notes]
 
     static constraints = {
         description(nullable: true)

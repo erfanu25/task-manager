@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class Steps {
+class Steps extends CommonTask {
 
     Long id
     String name

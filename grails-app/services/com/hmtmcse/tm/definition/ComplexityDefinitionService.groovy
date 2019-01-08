@@ -30,7 +30,6 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.addRequestProperty("name").required()
         gsApiActionDefinition.addRequestProperty("description")
         gsApiActionDefinition.addRequestProperty("reference")
-        gsApiActionDefinition.addRequestProperty("uuid").required()
         gsApiActionDefinition.addRequestProperty("startedMoment").enableTypeCast().setDateFormat("yyyy-MM-dd")
         gsApiActionDefinition.addRequestProperty("estimatedHour").enableTypeCast()
         gsApiActionDefinition.addRequestProperty("status")

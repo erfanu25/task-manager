@@ -1,6 +1,6 @@
 package com.hmtmcse.tm
 
-class DataChangeHistory {
+class DataChangeHistory extends CommonTask {
 
     Long id
     String domainName
