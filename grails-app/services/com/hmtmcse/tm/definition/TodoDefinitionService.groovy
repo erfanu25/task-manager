@@ -1,4 +1,4 @@
-package com.hmtmcse.tm
+package com.hmtmcse.tm.definition
 
 import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.data.GsApiResponseProperty
@@ -6,6 +6,8 @@ import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.model.CustomResponseParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
 import com.hmtmcse.swagger.definition.SwaggerConstant
+import com.hmtmcse.tm.AuthenticationService
+import com.hmtmcse.tm.Todo
 
 
 class TodoDefinitionService {
@@ -78,10 +80,7 @@ class TodoDefinitionService {
 
     GsApiActionDefinition allDetails() {
         GsApiActionDefinition gsApiActionDefinition = details()
-
-        def excludeFields = ["isDeleted", "dateCreated", "lastUpdated"]
-        gsApiActionDefinition.addRelationalEntityResponse("complexity")
-        gsApiActionDefinition.reResponseData().includeAllNotRelationalThenExcludeFromResponse(excludeFields)
+        gsApiActionDefinition.copyToRelationalRequestResponse("complexity", ComplexityDefinitionService.detailsDefinition())
 
         gsApiActionDefinition.addRelationalEntityResponse("assignee")
         gsApiActionDefinition.reResponseData().addResponseProperty("uuid")

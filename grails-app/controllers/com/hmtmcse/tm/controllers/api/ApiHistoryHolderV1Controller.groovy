@@ -1,7 +1,7 @@
 package com.hmtmcse.tm.controllers.api
 
 import com.hmtmcse.gs.GsRestProcessor
-import com.hmtmcse.tm.TodoDefinitionService
+import com.hmtmcse.tm.definition.TodoDefinitionService
 
 class ApiHistoryHolderV1Controller extends GsRestProcessor {
 

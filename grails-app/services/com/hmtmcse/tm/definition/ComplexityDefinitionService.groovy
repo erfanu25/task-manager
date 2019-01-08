@@ -15,9 +15,14 @@ class ComplexityDefinitionService {
         return gsApiActionDefinition
     }
 
-    GsApiActionDefinition details() {
+   static GsApiActionDefinition detailsDefinition() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Complexity>(Complexity)
-        gsApiActionDefinition.includeAllPropertyToResponse()
+        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(DefinitionCommonService.commonSkipFields())
+        return gsApiActionDefinition
+    }
+
+    GsApiActionDefinition details() {
+        GsApiActionDefinition gsApiActionDefinition = detailsDefinition()
         gsApiActionDefinition.addRelationalEntityResponse("todo")
         gsApiActionDefinition.reResponseData().addResponseProperty("id")
         gsApiActionDefinition.reResponseData().addResponseProperty("name")

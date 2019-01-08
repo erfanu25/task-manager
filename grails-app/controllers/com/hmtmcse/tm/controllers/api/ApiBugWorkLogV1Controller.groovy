@@ -1,7 +1,6 @@
 package com.hmtmcse.tm.controllers.api
 
 import com.hmtmcse.gs.GsRestProcessor
-import com.hmtmcse.tm.TodoDefinitionService
 import com.hmtmcse.tm.definition.BugWorkLogDefinitionService
 
 class ApiBugWorkLogV1Controller extends GsRestProcessor {
