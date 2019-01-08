@@ -89,11 +89,11 @@ export default class TodoComplexityDialog extends RaViewComponent {
             successMessage = "Successfully Updated!!";
             formData = RaGsConditionMaker.equal(formData, "id", Number(id))
         }
+
         console.log(formData);
         console.log(url);
 
-        this.postJsonToApi(url, formData,
-            success => {
+        this.postJsonToApi(url, formData,success => {
                 let successMap = {successRedirectUrl: "/todo", successMessage: successMessage, callBack: (data) => {this.initiateForm()}};
                 this.processFormResponseAdvance(success.data, successMap);
             }

@@ -17,7 +17,6 @@ import Grid from "@material-ui/core/Grid/Grid";
 import TodoManipulationView from "../todo/todo-manipulation-view";
 import {RaUtil} from "../../artifacts/ra-util";
 import TodoEditDialog from "./todo-edit-dialog";
-import RaAlertDialog from "../../artifacts/ra-alert-dialog";
 
 
 

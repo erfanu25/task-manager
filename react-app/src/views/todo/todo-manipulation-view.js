@@ -56,7 +56,6 @@ class TodoManipulationView extends RaViewComponent {
             let condition = RaGsConditionMaker.equal({}, "id", id);
             this.postJsonToApi(ApiURL.TodoAllDetails, condition, response => {
                 this.setState({allDetails: response.data.response});
-                console.log(response.data.response);
             });
         }else{
             RaStaticHolder.addMessageData("Invalid Todo Details", false);
@@ -110,15 +109,12 @@ class TodoManipulationView extends RaViewComponent {
                 <Grid container spacing={8}>
 
                     <Grid item xs={12}>
-                        <ExpansionPanel defaultExpanded>
+                        <ExpansionPanel defaultExpanded={ !!this.state.allDetails.description}>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                <Typography>Todo List Name</Typography>
+                                <Typography variant="headline">{this.state.allDetails.name}</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                    sit amet blandit leo lobortis eget.
-                                </Typography>
+                                <Typography>{this.state.allDetails.description}</Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     </Grid>
