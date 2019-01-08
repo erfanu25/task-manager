@@ -25,7 +25,8 @@ class TMConstant {
             PROGRAMMING       : "Programming",
             UI_AND_PROGRAMMING: "UI & Programming",
             API               : "API",
-            EXTERNAL_APP      : "API",
+            EXTERNAL_APP      : "External App",
+            OTHERS            : "Others",
     ]
 
     public static final COMPLEXITY_TASK_TYPE = [

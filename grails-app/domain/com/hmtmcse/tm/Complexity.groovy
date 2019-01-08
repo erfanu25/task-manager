@@ -14,7 +14,7 @@ class Complexity extends CommonTask {
     String status = TMConstant.STATUS.PENDING
     String jsonData
     String otherInfo
-    String type
+    String type = TMConstant.COMPLEXITY_TYPE.OTHERS
     String taskType = TMConstant.COMPLEXITY_TASK_TYPE.DEVELOPMENT
     Todo todo
 

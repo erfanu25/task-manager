@@ -31,6 +31,8 @@ class CommonDefinitionService {
         gsApiActionDefinition.addResponseProperty("complexityTaskType").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
         gsApiActionDefinition.addResponseProperty("workLogType").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
         gsApiActionDefinition.addResponseProperty("bugReportType").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
+
+
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
