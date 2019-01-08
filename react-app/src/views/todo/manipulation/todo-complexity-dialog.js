@@ -10,6 +10,7 @@ import React from 'react';
 import RaViewComponent from "../../../artifacts/ra-view-component";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {ApiURL} from "../../../app/api-url";
+import {RaGsConditionMaker} from "../../../artifacts/ra-gs-condition-maker";
 
 export default class TodoComplexityDialog extends RaViewComponent {
 
@@ -64,6 +65,26 @@ export default class TodoComplexityDialog extends RaViewComponent {
         });
     }
 
+    formSubmitHandler = event => {
+        event.preventDefault();
+        let formData = this.state.formData;
+        let url = ApiURL.TodoQuickCreate;
+        let successMessage = "Successfully Created!!";
+        let id = this.getValueFromParams("id");
+        if (id){
+            url = ApiURL.TodoUpdate;
+            successMessage = "Successfully Updated!!";
+            formData = RaGsConditionMaker.equal(formData, "id", Number(id))
+        }
+        this.postJsonToApi(url, formData,
+            success => {
+                let successMap = {successRedirectUrl: "/todo", successMessage: successMessage, callBack: (data) => {this.initiateForm()}};
+                this.processFormResponseAdvance(success.data, successMap);
+            }
+        )
+    };
+
+
 
     appRender() {
         return (
@@ -73,7 +94,7 @@ export default class TodoComplexityDialog extends RaViewComponent {
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">Complexity</DialogTitle>
                 <DialogContent>
-                    <form>
+                    <form onSubmit={this.formSubmitHandler}>
                         <Grid container spacing={8}>
                             <Grid item xs={2}>
                                 <TextField {...this.onChangeSelectProcessor("status")} label="Status" select fullWidth>
