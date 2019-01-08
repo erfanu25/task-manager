@@ -1,26 +1,31 @@
 package com.hmtmcse.tm.controllers.api
 
 import com.hmtmcse.gs.GsRestProcessor
-import com.hmtmcse.tm.TodoDefinitionService
+import com.hmtmcse.tm.definition.StepsDefinitionService
 
 class ApiStepV1Controller extends GsRestProcessor {
 
-    TodoDefinitionService todoDefinitionService
+    StepsDefinitionService stepsDefinitionService
 
     def postQuickCreate() {
-        return create(todoDefinitionService.create())
+        return create(stepsDefinitionService.create())
     }
 
     def postUpdate() {
-        return create(todoDefinitionService.create())
+        return update(stepsDefinitionService.update())
     }
 
-    def postList() {
-        return create(todoDefinitionService.create())
+    def getList() {
+        return list(stepsDefinitionService.list())
     }
 
-    def postDetails() {
-        return create(todoDefinitionService.create())
+    def getDetails() {
+        return details(stepsDefinitionService.list())
     }
+
+    def deleteDelete() {
+        return delete(stepsDefinitionService.delete())
+    }
+
 
 }

@@ -1,26 +1,30 @@
 package com.hmtmcse.tm.controllers.api
 
 import com.hmtmcse.gs.GsRestProcessor
-import com.hmtmcse.tm.TodoDefinitionService
+import com.hmtmcse.tm.definition.WorkLogDefinitionService
 
 class ApiWorkLogV1Controller extends GsRestProcessor {
 
-    TodoDefinitionService todoDefinitionService
+    WorkLogDefinitionService workLogDefinitionService
 
     def postQuickCreate() {
-        return create(todoDefinitionService.create())
+        return create(workLogDefinitionService.create())
     }
 
     def postUpdate() {
-        return create(todoDefinitionService.create())
+        return update(workLogDefinitionService.update())
     }
 
-    def postList() {
-        return create(todoDefinitionService.create())
+    def getList() {
+        return list(workLogDefinitionService.list())
     }
 
-    def postDetails() {
-        return create(todoDefinitionService.create())
+    def getDetails() {
+        return details(workLogDefinitionService.list())
+    }
+
+    def deleteDelete() {
+        return delete(workLogDefinitionService.delete())
     }
 
 }

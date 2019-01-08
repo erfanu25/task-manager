@@ -1,26 +1,30 @@
 package com.hmtmcse.tm.controllers.api
 
 import com.hmtmcse.gs.GsRestProcessor
-import com.hmtmcse.tm.TodoDefinitionService
+import com.hmtmcse.tm.definition.ComplexityDefinitionService
 
 class ApiComplexityV1Controller extends GsRestProcessor {
 
-    TodoDefinitionService todoDefinitionService
+    ComplexityDefinitionService complexityDefinitionService
 
     def postQuickCreate() {
-        return create(todoDefinitionService.create())
+        return create(complexityDefinitionService.create())
     }
 
     def postUpdate() {
-        return create(todoDefinitionService.create())
+        return update(complexityDefinitionService.update())
     }
 
-    def postList() {
-        return create(todoDefinitionService.create())
+    def getList() {
+        return list(complexityDefinitionService.list())
     }
 
-    def postDetails() {
-        return create(todoDefinitionService.create())
+    def getDetails() {
+        return details(complexityDefinitionService.details())
+    }
+
+    def deleteDelete() {
+        return delete(complexityDefinitionService.delete())
     }
 
 }

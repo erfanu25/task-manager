@@ -1,26 +1,31 @@
 package com.hmtmcse.tm.controllers.api
 
 import com.hmtmcse.gs.GsRestProcessor
-import com.hmtmcse.tm.TodoDefinitionService
+import com.hmtmcse.tm.definition.ChangeLogDefinitionService
 
 class ApiChangeLogV1Controller extends GsRestProcessor {
 
-    TodoDefinitionService todoDefinitionService
+    ChangeLogDefinitionService changeLogDefinitionService
 
     def postQuickCreate() {
-        return create(todoDefinitionService.create())
+        return create(changeLogDefinitionService.create())
     }
 
     def postUpdate() {
-        return create(todoDefinitionService.create())
+        return update(changeLogDefinitionService.update())
     }
 
-    def postList() {
-        return create(todoDefinitionService.create())
+    def getList() {
+        return list(changeLogDefinitionService.list())
     }
 
-    def postDetails() {
-        return create(todoDefinitionService.create())
+    def getDetails() {
+        return details(changeLogDefinitionService.details())
     }
+
+    def deleteDelete() {
+        return delete(changeLogDefinitionService.delete())
+    }
+
 
 }
