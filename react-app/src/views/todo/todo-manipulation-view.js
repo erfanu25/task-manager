@@ -12,6 +12,11 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary/Expan
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
+import TodoComplexityDialog from "./manipulation/todo-complexity-dialog";
+import TodoChangeLogDialog from "./manipulation/todo-change-log-dialog";
+import TodoParallelTestingDialog from "./manipulation/todo-parallel-testing-dialog";
+import TodoNoteDialog from "./manipulation/todo-note-dialog";
+import TodoBugReportDialog from "./manipulation/todo-bug-report-dialog";
 
 
 
@@ -28,7 +33,11 @@ class TodoManipulationView extends RaViewComponent {
             total: 0,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
-            countrySelect: 'bangladesh',
+            isOpenTodoComplexity: false,
+            isOpenTodoChangeLog: false,
+            isOpenTodoParallelTesting: false,
+            isOpenTodoNotes: false,
+            isOpenTodoBugReports: false,
         };
     }
 
@@ -52,15 +61,50 @@ class TodoManipulationView extends RaViewComponent {
     };
 
 
+    openTodoComplexity(event){
+        this.setState(state => ({
+            isOpenTodoComplexity: true
+        }));
+    }
 
+    openTodoChangeLog(event){
+        this.setState(state => ({
+            isOpenTodoChangeLog: true
+        }));
+    }
+
+    openTodoNotes(event){
+        this.setState(state => ({
+            isOpenTodoNotes: true
+        }));
+    }
+
+    openTodoBugReports(event){
+        this.setState(state => ({
+            isOpenTodoBugReports: true
+        }));
+    }
+
+    openTodoParallelTesting(event){
+        this.setState(state => ({
+            isOpenTodoParallelTesting: true
+        }));
+    }
 
     appRender() {
         const {classes} = this.props;
 
         return (
             <React.Fragment>
+                {this.state.isOpenTodoComplexity ? (<TodoComplexityDialog parent={this} />): ""}
+                {this.state.isOpenTodoChangeLog ? (<TodoChangeLogDialog parent={this} />): ""}
+
+                {this.state.isOpenTodoParallelTesting ? (<TodoParallelTestingDialog parent={this} />): ""}
+                {this.state.isOpenTodoNotes ? (<TodoNoteDialog parent={this} />): ""}
+                {this.state.isOpenTodoBugReports ? (<TodoBugReportDialog parent={this} />): ""}
                 <Paper className={classes.mainActionArea}>
                 <Grid container spacing={8}>
+
                     <Grid item xs={12}>
                         <ExpansionPanel defaultExpanded>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -85,7 +129,7 @@ class TodoManipulationView extends RaViewComponent {
                                             <Typography variant="headline" align="center">Complexity</Typography>
                                         </div>
                                         <div>
-                                           <Button variant="contained"><AddIcon/></Button>
+                                           <Button variant="contained" onClick={(e) => {this.openTodoComplexity(e)}}><AddIcon/></Button>
                                         </div>
                                     </Paper>
                                     <ExpansionPanel>
@@ -119,7 +163,7 @@ class TodoManipulationView extends RaViewComponent {
                                             <Typography variant="headline" align="center">Parallel Testing</Typography>
                                         </div>
                                         <div>
-
+                                            <Button variant="contained" onClick={(e) => {this.openTodoParallelTesting(e)}}><AddIcon/></Button>
                                         </div>
                                     </Paper>
                                     <ExpansionPanel>
@@ -151,7 +195,7 @@ class TodoManipulationView extends RaViewComponent {
                                             <Typography variant="headline" >Change Log</Typography>
                                         </div>
                                         <div>
-                                            <Button variant="contained"><AddIcon/></Button>
+                                            <Button variant="contained" onClick={(e) => {this.openTodoChangeLog(e)}}><AddIcon/></Button>
                                         </div>
                                     </Paper>
                                     <ExpansionPanel>
@@ -183,7 +227,7 @@ class TodoManipulationView extends RaViewComponent {
                                             <Typography variant="headline">Notes</Typography>
                                         </div>
                                         <div>
-                                            <Button variant="contained"><AddIcon/></Button>
+                                            <Button variant="contained" onClick={(e) => {this.openTodoNotes(e)}}><AddIcon/></Button>
                                         </div>
                                     </Paper>
                                     <ExpansionPanel>
@@ -215,7 +259,7 @@ class TodoManipulationView extends RaViewComponent {
                                             <Typography variant="headline">Bug Reports</Typography>
                                         </div>
                                         <div>
-                                            <Button variant="contained"><AddIcon/></Button>
+                                            <Button variant="contained" onClick={(e) => {this.openTodoBugReports(e)}}><AddIcon/></Button>
                                         </div>
                                     </Paper>
                                     <ExpansionPanel>
