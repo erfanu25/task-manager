@@ -39,11 +39,9 @@ class NotesDefinitionService {
         gsApiActionDefinition.addRequestProperty("uuid").required()
         gsApiActionDefinition.addRequestProperty("jsonData")
         gsApiActionDefinition.addRequestProperty("todo", SwaggerConstant.SWAGGER_DT_LONG)
-                .setAlias("todoId").required()
-                .enableTypeCast()
+                .setAlias("todoId").enableTypeCast()
         gsApiActionDefinition.addRequestProperty("user", SwaggerConstant.SWAGGER_DT_LONG)
-                .setAlias("userId").required()
-                .enableTypeCast()
+                .setAlias("userId").enableTypeCast()
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
