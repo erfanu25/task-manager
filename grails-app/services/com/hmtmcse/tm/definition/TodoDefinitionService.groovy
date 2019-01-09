@@ -81,6 +81,7 @@ class TodoDefinitionService {
     GsApiActionDefinition allDetails() {
         GsApiActionDefinition gsApiActionDefinition = details()
         gsApiActionDefinition.copyToRelationalRequestResponse("complexity", ComplexityDefinitionService.detailsDefinition())
+        gsApiActionDefinition.copyToRelationalRequestResponse("changeLog", ChangeLogDefinitionService.detailsDefinition())
 
         gsApiActionDefinition.addRelationalEntityResponse("assignee")
         gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
@@ -90,9 +91,6 @@ class TodoDefinitionService {
         gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
         gsApiActionDefinition.reResponseData().addResponseProperty("name")
 
-        gsApiActionDefinition.addRelationalEntityResponse("changeLog")
-        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
 
         gsApiActionDefinition.addRelationalEntityResponse("note")
         gsApiActionDefinition.reResponseData().addResponseProperty("uuid")

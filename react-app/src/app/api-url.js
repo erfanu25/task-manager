@@ -30,6 +30,13 @@ export const ApiURL = {
     ComplexityDelete: "",
     ComplexityDetails: "",
 
+    ChangeLogList: "",
+    ChangeLogCreate: "api/v1/changeLog/create",
+    ChangeLogGetDetailsByTodo: "api/v1/changeLog/detailsByTodo",
+    ChangeLogUpdate: "api/v1/changeLog/update",
+    ChangeLogDelete: "",
+    ChangeLogDetails: "",
+
 
     XXXList: "",
     XXXXCreate: "",

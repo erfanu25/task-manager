@@ -23,6 +23,11 @@ class ApiChangeLogV1Controller extends GsRestProcessor {
         return details(changeLogDefinitionService.details())
     }
 
+    def getDetailsByTodo() {
+        return customProcessor(changeLogDefinitionService.getDetailsByTodo())
+    }
+
+
     def deleteDelete() {
         return delete(changeLogDefinitionService.delete())
     }

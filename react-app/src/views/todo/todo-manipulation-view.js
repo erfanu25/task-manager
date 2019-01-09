@@ -20,7 +20,6 @@ import TodoNoteDialog from "./manipulation/todo-note-dialog";
 import TodoBugReportDialog from "./manipulation/todo-bug-report-dialog";
 import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import RaStaticHolder from "../../artifacts/ra-static-holder";
-import RaTableAction from "../../artifacts/ra-table-action";
 
 
 
@@ -35,6 +34,7 @@ class TodoManipulationView extends RaViewComponent {
             order: "desc",
             allDetails: [],
             complexityAndSteps: [],
+            changeLogs: [],
             total: 0,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
@@ -63,6 +63,9 @@ class TodoManipulationView extends RaViewComponent {
                 if (Object.getOwnPropertyNames(allDetails.complexity).length) {
                     this.setState({complexityAndSteps: allDetails.complexity});
                 }
+                if (Object.getOwnPropertyNames(allDetails.changeLog).length) {
+                    this.setState({changeLogs: allDetails.changeLog});
+                }
             });
         }else{
             RaStaticHolder.addMessageData("Invalid Todo Details", false);
@@ -76,6 +79,18 @@ class TodoManipulationView extends RaViewComponent {
             let responseData = response.data.response;
             if (responseData){
                 this.setState({complexityAndSteps: responseData});
+            }
+            if (callBack){
+                callBack();
+            }
+        });
+    }
+
+    loadChangeLogWithSteps(callBack) {
+        this.getToApi(ApiURL.ChangeLogGetDetailsByTodo + "?todoId=" + this.state.allDetails.id, response => {
+            let responseData = response.data.response;
+            if (responseData){
+                this.setState({changeLogs: responseData});
             }
             if (callBack){
                 callBack();
@@ -211,29 +226,23 @@ class TodoManipulationView extends RaViewComponent {
                                             <Button variant="contained" onClick={(e) => {this.openTodoChangeLog(e)}}><AddIcon/></Button>
                                         </div>
                                     </Paper>
-                                    <ExpansionPanel>
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                            <Typography className={classes.heading}>Discount On Order</Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails>
-                                            <Typography>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                                sit amet blandit leo lobortis eget.
-                                            </Typography>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel>
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                            <Typography className={classes.heading}>Expansion Panel 2</Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails>
-                                            <Typography>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                                sit amet blandit leo lobortis eget.
-                                            </Typography>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
 
+                                    {this.state.changeLogs.map(function (changeLog, key) {
+                                        return (
+                                            <ExpansionPanel key={key}>
+                                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                                    <Typography className={classes.heading}>{changeLog.name}</Typography>
+                                                </ExpansionPanelSummary>
+                                                <ExpansionPanelDetails>
+                                                    <Typography>
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                        sit amet blandit leo lobortis eget.
+                                                    </Typography>
+                                                </ExpansionPanelDetails>
+                                            </ExpansionPanel>
+
+                                        )
+                                    })}
                                     <div className={classes.againMainActionArea}/>
                                     <Paper className={classes.againMainActionArea}>
                                         <div>

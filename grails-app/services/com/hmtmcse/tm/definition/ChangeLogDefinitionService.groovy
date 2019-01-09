@@ -1,11 +1,18 @@
 package com.hmtmcse.tm.definition
 
 import com.hmtmcse.gs.GsApiActionDefinition
+import com.hmtmcse.gs.data.ApiHelper
+import com.hmtmcse.gs.data.GsApiResponseData
+import com.hmtmcse.gs.data.GsParamsPairData
+import com.hmtmcse.gs.model.CustomProcessor
 import com.hmtmcse.swagger.definition.SwaggerConstant
 import com.hmtmcse.tm.ChangeLog
+import com.hmtmcse.tm.ChangeLogService
+import com.hmtmcse.tm.Complexity
 
 class ChangeLogDefinitionService {
 
+    ChangeLogService changeLogService
     GsApiActionDefinition list() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<ChangeLog>(ChangeLog)
         gsApiActionDefinition.includeAllPropertyToResponse()
@@ -25,11 +32,30 @@ class ChangeLogDefinitionService {
         return gsApiActionDefinition
     }
 
+    GsApiActionDefinition getDetailsByTodo() {
+        GsApiActionDefinition gsApiActionDefinition = detailsDefinition()
+        gsApiActionDefinition.addRequestProperty("todoId", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                def complexity = changeLogService.getAllChangeLogByTodo(paramData.filteredGrailsParameterMap.todoId)
+                return apiHelper.help.responseToApi(actionDefinition, complexity)
+            }
+        }
+        gsApiActionDefinition.successResponseAsData([])
+        return gsApiActionDefinition
+    }
+
+    static GsApiActionDefinition detailsDefinition() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<ChangeLog>(ChangeLog)
+        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(DefinitionCommonService.commonSkipFields())
+        return gsApiActionDefinition
+    }
+
     GsApiActionDefinition create() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<ChangeLog>(ChangeLog)
         gsApiActionDefinition.addRequestProperty("name").required()
         gsApiActionDefinition.addRequestProperty("description")
-        gsApiActionDefinition.addRequestProperty("uuid").required()
         gsApiActionDefinition.addRequestProperty("jsonData")
         gsApiActionDefinition.addRequestProperty("otherInfo")
         gsApiActionDefinition.addRequestProperty("todo", SwaggerConstant.SWAGGER_DT_LONG)
