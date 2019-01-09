@@ -71,15 +71,15 @@ class TodoManipulationView extends RaViewComponent {
     }
 
 
-    loadComplexityWithSteps() {
+    loadComplexityWithSteps(callBack) {
         this.getToApi(ApiURL.ComplexityGetDetailsByTodo + "?todoId=" + this.state.allDetails.id, response => {
             let responseData = response.data.response;
             if (responseData){
                 this.setState({complexityAndSteps: responseData});
             }
-            console.log(response);
-            console.log(responseData);
-
+            if (callBack){
+                callBack();
+            }
         });
     }
 
