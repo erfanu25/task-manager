@@ -23,6 +23,14 @@ class ApiComplexityV1Controller extends GsRestProcessor {
         return details(complexityDefinitionService.details())
     }
 
+    def getDetailsByTodo() {
+        return customProcessor(complexityDefinitionService.getDetailsByTodo())
+    }
+
+    def postDetails() {
+        return details(complexityDefinitionService.details())
+    }
+
     def deleteDelete() {
         return delete(complexityDefinitionService.delete())
     }

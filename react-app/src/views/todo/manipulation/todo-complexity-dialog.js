@@ -77,25 +77,27 @@ export default class TodoComplexityDialog extends RaViewComponent {
 
     formSubmitHandler = event => {
         event.preventDefault();
-        const { parent } = this.props;
+        const {parent} = this.props;
         let formData = this.state.formData;
         let allDetails = parent.state.allDetails;
         formData.todoId = allDetails.id;
         let url = ApiURL.ComplexityCreate;
         let successMessage = "Successfully Created!!";
         let id = this.getValueFromParams("id");
-        if (id){
+        if (id) {
             url = ApiURL.ComplexityUpdate;
             successMessage = "Successfully Updated!!";
             formData = RaGsConditionMaker.equal(formData, "id", Number(id))
         }
-
-        console.log(formData);
-        console.log(url);
-
-        this.postJsonToApi(url, formData,success => {
-                let successMap = {successRedirectUrl: "/todo", successMessage: successMessage, callBack: (data) => {this.initiateForm()}};
-                this.processFormResponseAdvance(success.data, successMap);
+        this.postJsonToApi(url, formData, success => {
+                let data = success.data;
+                if (data.isSuccess){
+                    parent.showSuccessInfo(successMessage);
+                    parent.loadComplexityWithSteps();
+                    this.closePopup();
+                }else{
+                    this.showErrorInfo(response.message)
+                }
             }
         )
     };

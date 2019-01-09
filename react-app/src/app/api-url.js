@@ -25,6 +25,7 @@ export const ApiURL = {
 
     ComplexityList: "",
     ComplexityCreate: "api/v1/complexity/create",
+    ComplexityGetDetailsByTodo: "api/v1/complexity/detailsByTodo",
     ComplexityUpdate: "api/v1/complexity/update",
     ComplexityDelete: "",
     ComplexityDetails: "",

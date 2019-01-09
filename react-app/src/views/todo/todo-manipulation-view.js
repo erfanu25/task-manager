@@ -1,6 +1,7 @@
 import React from 'react'
 import RaViewComponent from "./../../artifacts/ra-view-component";
-import { Paper, Typography,Button
+import {
+    Paper, Typography, Button, TableRow, TableCell
 } from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import {ApiURL} from "../../app/api-url";
@@ -19,6 +20,7 @@ import TodoNoteDialog from "./manipulation/todo-note-dialog";
 import TodoBugReportDialog from "./manipulation/todo-bug-report-dialog";
 import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import RaStaticHolder from "../../artifacts/ra-static-holder";
+import RaTableAction from "../../artifacts/ra-table-action";
 
 
 
@@ -32,6 +34,7 @@ class TodoManipulationView extends RaViewComponent {
             orderBy: "id",
             order: "desc",
             allDetails: [],
+            complexityAndSteps: [],
             total: 0,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
@@ -55,12 +58,29 @@ class TodoManipulationView extends RaViewComponent {
         if (id) {
             let condition = RaGsConditionMaker.equal({}, "id", id);
             this.postJsonToApi(ApiURL.TodoAllDetails, condition, response => {
-                this.setState({allDetails: response.data.response});
+                let allDetails = response.data.response;
+                this.setState({allDetails: allDetails});
+                if (Object.getOwnPropertyNames(allDetails.complexity).length) {
+                    this.setState({complexityAndSteps: allDetails.complexity});
+                }
             });
         }else{
             RaStaticHolder.addMessageData("Invalid Todo Details", false);
             this.goToUrl("/todo");
         }
+    }
+
+
+    loadComplexityWithSteps() {
+        this.getToApi(ApiURL.ComplexityGetDetailsByTodo + "?todoId=" + this.state.allDetails.id, response => {
+            let responseData = response.data.response;
+            if (responseData){
+                this.setState({complexityAndSteps: responseData});
+            }
+            console.log(response);
+            console.log(responseData);
+
+        });
     }
 
 
@@ -132,29 +152,22 @@ class TodoManipulationView extends RaViewComponent {
                                            <Button variant="contained" onClick={(e) => {this.openTodoComplexity(e)}}><AddIcon/></Button>
                                         </div>
                                     </Paper>
-                                    <ExpansionPanel>
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                            <Typography className={classes.heading}>Discount On Order</Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails>
-                                            <Typography>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                                sit amet blandit leo lobortis eget.
-                                            </Typography>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel>
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                            <Typography className={classes.heading}>Expansion Panel 2</Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails>
-                                            <Typography>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                                sit amet blandit leo lobortis eget.
-                                            </Typography>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
 
+                                    {this.state.complexityAndSteps.map(function (complexity, key) {
+                                        return (
+                                            <ExpansionPanel key={key}>
+                                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                                    <Typography className={classes.heading}>{complexity.name}</Typography>
+                                                </ExpansionPanelSummary>
+                                                <ExpansionPanelDetails>
+                                                    <Typography>
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                        sit amet blandit leo lobortis eget.
+                                                    </Typography>
+                                                </ExpansionPanelDetails>
+                                            </ExpansionPanel>
+                                        )
+                                    })}
 
                                     <div className={classes.againMainActionArea}/>
                                     <div className={classes.againMainActionArea}/>

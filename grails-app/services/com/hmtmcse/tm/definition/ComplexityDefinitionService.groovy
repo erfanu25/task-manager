@@ -1,10 +1,17 @@
 package com.hmtmcse.tm.definition
 
 import com.hmtmcse.gs.GsApiActionDefinition
+import com.hmtmcse.gs.data.ApiHelper
+import com.hmtmcse.gs.data.GsApiResponseData
+import com.hmtmcse.gs.data.GsParamsPairData
+import com.hmtmcse.gs.model.CustomProcessor
 import com.hmtmcse.swagger.definition.SwaggerConstant
 import com.hmtmcse.tm.Complexity
+import com.hmtmcse.tm.ComplexityService
 
 class ComplexityDefinitionService {
+
+    ComplexityService complexityService
 
     GsApiActionDefinition list() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Complexity>(Complexity)
@@ -29,6 +36,23 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
         return gsApiActionDefinition
     }
+
+
+
+    GsApiActionDefinition getDetailsByTodo() {
+        GsApiActionDefinition gsApiActionDefinition = detailsDefinition()
+        gsApiActionDefinition.addRequestProperty("todoId", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                def complexity = complexityService.getAllComplexityByTodo(paramData.filteredGrailsParameterMap.todoId)
+                return apiHelper.help.responseToApi(actionDefinition, complexity)
+            }
+        }
+        gsApiActionDefinition.successResponseAsData([])
+        return gsApiActionDefinition
+    }
+
 
     GsApiActionDefinition create() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Complexity>(Complexity)
