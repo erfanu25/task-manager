@@ -2,11 +2,7 @@ package com.hmtmcse.websocket;
 
 import javax.websocket.WebSocketContainer;
 import java.net.URI;
-import javax.websocket.*;
-
-
 import java.io.IOException;
-import java.net.URI;
 import javax.websocket.ClientEndpoint;
 import javax.websocket.ContainerProvider;
 import javax.websocket.OnMessage;

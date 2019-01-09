@@ -20,6 +20,7 @@ import TodoNoteDialog from "./manipulation/todo-note-dialog";
 import TodoBugReportDialog from "./manipulation/todo-bug-report-dialog";
 import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import RaStaticHolder from "../../artifacts/ra-static-holder";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 
 
@@ -129,6 +130,25 @@ class TodoManipulationView extends RaViewComponent {
         }));
     }
 
+    complexityOnDragEnd(result) {
+        if (!result.destination) {
+            return;
+        }
+        const data = Array.from(this.state.complexityAndSteps);
+        const [removed] = data.splice(result.source.index, 1);
+        data.splice(result.destination.index, 0, removed);
+        this.setState({complexityAndSteps: data});
+
+        let dbUpdateData = [];
+        data.map(function (complexity, key) {
+            dbUpdateData.push({
+                "sortPosition": key,
+                "dbId": complexity.id,
+            })
+        });
+        console.log(dbUpdateData);
+    }
+
     appRender() {
         const {classes} = this.props;
 
@@ -168,21 +188,43 @@ class TodoManipulationView extends RaViewComponent {
                                         </div>
                                     </Paper>
 
-                                    {this.state.complexityAndSteps.map(function (complexity, key) {
-                                        return (
-                                            <ExpansionPanel key={key}>
-                                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                                    <Typography className={classes.heading}>{complexity.name}</Typography>
-                                                </ExpansionPanelSummary>
-                                                <ExpansionPanelDetails>
-                                                    <Typography>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                                        sit amet blandit leo lobortis eget.
-                                                    </Typography>
-                                                </ExpansionPanelDetails>
-                                            </ExpansionPanel>
-                                        )
-                                    })}
+
+                                    <DragDropContext onDragEnd={(result)=>{this.complexityOnDragEnd(result)}}>
+                                        <Droppable droppableId="droppable">
+                                            {(provided, snapshot) => (
+                                                <div ref={provided.innerRef}>
+                                                    {this.state.complexityAndSteps.map(function (complexity, key) {
+                                                        return (
+                                                            <Draggable key={complexity.id} draggableId={complexity.id} index={key}>
+                                                                {(provided, snapshot) => (
+                                                                    <div ref={provided.innerRef}
+                                                                         {...provided.draggableProps}
+                                                                         {...provided.dragHandleProps}>
+                                                                        <ExpansionPanel key={key}>
+                                                                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                                                                <Typography className={classes.heading}>{complexity.name}</Typography>
+                                                                            </ExpansionPanelSummary>
+                                                                            <ExpansionPanelDetails>
+                                                                                <Typography>
+                                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                                                                    sit amet blandit leo lobortis eget.
+                                                                                </Typography>
+                                                                            </ExpansionPanelDetails>
+                                                                        </ExpansionPanel>
+                                                                    </div>
+                                                                )}
+                                                            </Draggable>
+                                                        )
+                                                    })}
+                                                    {provided.placeholder}
+                                                </div>
+                                            )}
+                                        </Droppable>
+                                    </DragDropContext>
+
+
+
+
 
                                     <div className={classes.againMainActionArea}/>
                                     <div className={classes.againMainActionArea}/>
