@@ -41,6 +41,12 @@ const viewCommon = theme => ({
         marginBottom: "10px"
     },
 
+    draggableExpansionPanelSpace : {
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: "5px"
+    },
+
     marginToLeft : {
         marginLeft: theme.spacing.unit,
     },

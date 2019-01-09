@@ -202,7 +202,7 @@ class TodoManipulationView extends RaViewComponent {
                                                                          {...provided.dragHandleProps}>
                                                                         <ExpansionPanel key={key}>
                                                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                                                                <Typography className={classes.heading}>{complexity.name}</Typography>
+                                                                                <Typography variant="subheading" className={classes.heading}>{complexity.name}</Typography>
                                                                             </ExpansionPanelSummary>
                                                                             <ExpansionPanelDetails>
                                                                                 <Typography>
@@ -211,6 +211,7 @@ class TodoManipulationView extends RaViewComponent {
                                                                                 </Typography>
                                                                             </ExpansionPanelDetails>
                                                                         </ExpansionPanel>
+                                                                        <div className={classes.draggableExpansionPanelSpace}/>
                                                                     </div>
                                                                 )}
                                                             </Draggable>
